@@ -1,12 +1,64 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+<!--      <router-link to="/">Все</router-link> |-->
+<!--      <router-link to="/elect">Избранные</router-link>-->
+<!--      <router-link to="/deleted">Удаленные</router-link>-->
+      <v-card
+              height="400"
+      >
+        <v-navigation-drawer
+                absolute
+                dark
+        >
+          <v-list
+                  dense
+                  nav
+                  class="py-0"
+          >
+
+
+            <v-list-item
+                    v-for="item in items"
+                    :key="item.title"
+                    link
+            >
+              <v-list-item-icon>
+                <v-icon>{{ item.icon }}</v-icon>
+              </v-list-item-icon>
+
+              <v-list-item-content>
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-navigation-drawer>
+      </v-card>
     </div>
+
+
     <router-view/>
   </div>
 </template>
+
+<script>
+  export default{
+    data () {
+      return {
+        drawer: true,
+        items: [
+          { title: 'Dashboard', icon: 'mdi-view-dashboard' },
+          { title: 'Photos', icon: 'mdi-image' },
+          { title: 'About', icon: 'mdi-help-box' },
+        ],
+        color: 'primary',
+
+
+      }
+    }
+  }
+
+</script>
 
 <style lang="scss">
 #app {
