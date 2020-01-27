@@ -1,6 +1,6 @@
 <template>
-  <div class="elect_e">
-    <h1>FOR ELITS</h1>
+  <div class="list_favorite">
+    <h1>FOR Favorite</h1>
   </div>
 </template>
 
@@ -8,7 +8,7 @@
   // @ is an alias to /src
   //import HelloWorld from '@/components/HelloWorld.vue'
 
-  export default {
+export default {
 
-  }
+}
 </script>

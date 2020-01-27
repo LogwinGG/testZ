@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import All from '../views/All'
-import Elect from '../views/Elect'
+import Favorite from '../views/Favorite'
+import Deleted from '../views/Deleted'
 
 Vue.use(VueRouter)
 
@@ -12,10 +13,17 @@ const routes = [
     component: All
   },
   {
-    path: '/elect',
-    name: 'elect',
-    component: Elect
-  }
+    path: '/favorite',
+    name: 'favorite',
+    component: Favorite
+  },
+  {
+    path: '/deleted',
+    name: 'deleted',
+    component: Deleted
+
+   }
+
 ]
 
 const router = new VueRouter({

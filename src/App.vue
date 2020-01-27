@@ -1,84 +1,76 @@
 <template>
-  <div id="app">
-    <div id="nav">
-<!--      <router-link to="/">Все</router-link> |-->
-<!--      <router-link to="/elect">Избранные</router-link>-->
-<!--      <router-link to="/deleted">Удаленные</router-link>-->
-      <v-card
-              height="400"
+  <v-app>
+    <v-navigation-drawer
+            v-model="drawer"
+            app
+    >
+      <v-list dense>
+        <v-list-item link to="/" @click="title = 'Все'">
+          <v-list-item-action>
+            <v-icon>mdi-notification-clear-all</v-icon>
+          </v-list-item-action>
+          <v-list-item-content >
+            <v-list-item-title>Все</v-list-item-title>
+
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item link to="/favorite" @click="title = 'Любимые'">
+          <v-list-item-action>
+            <v-icon>mdi-heart-box-outline</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title >Любимые</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item link to="/deleted" @click="title = 'Удаленные'">
+          <v-list-item-action>
+            <v-icon>mdi-delete-sweep-outline</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title >Удаленные</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-app-bar
+            app
+            color="dark"
+            dark
+    >
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-toolbar-title>{{title}}</v-toolbar-title>
+    </v-app-bar>
+
+    <v-content>
+      <v-container
+
       >
-        <v-navigation-drawer
-                absolute
-                dark
-        >
-          <v-list
-                  dense
-                  nav
-                  class="py-0"
-          >
+        <router-view></router-view>
+      </v-container>
+    </v-content>
 
-
-            <v-list-item
-                    v-for="item in items"
-                    :key="item.title"
-                    link
-            >
-              <v-list-item-icon>
-                <v-icon>{{ item.icon }}</v-icon>
-              </v-list-item-icon>
-
-              <v-list-item-content>
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-        </v-navigation-drawer>
-      </v-card>
-    </div>
-
-
-    <router-view/>
-  </div>
+    <v-footer
+            color="dark"
+            app
+    >
+      <span class="white--text">&copy; 2020</span>
+    </v-footer>
+  </v-app>
 </template>
 
 <script>
-  export default{
-    data () {
-      return {
-        drawer: true,
-        items: [
-          { title: 'Dashboard', icon: 'mdi-view-dashboard' },
-          { title: 'Photos', icon: 'mdi-image' },
-          { title: 'About', icon: 'mdi-help-box' },
-        ],
-        color: 'primary',
 
 
-      }
-    }
-  }
-
+export default {
+  name: 'App',
+  components: {},
+  data: () => ({
+    drawer: null,
+    title: ''
+  }),
+};
 </script>
-
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
