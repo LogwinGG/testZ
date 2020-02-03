@@ -70,7 +70,7 @@ export default {
   components: {},
   data: () => ({
     drawer: null,
-    title: ''
+    title: 'Все'
   }),
 };
 </script>
