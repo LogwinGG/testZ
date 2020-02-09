@@ -1,4 +1,4 @@
-# testt
+# testZ (Vue 2.6; vuex;)
 
 ## Project setup
 ```
