@@ -46,10 +46,10 @@
     </v-app-bar>
 
     <v-content>
-      <v-container
-
-      >
-        <router-view></router-view>
+      <v-container>
+        <router-view>
+            <!--views-->
+        </router-view>
       </v-container>
     </v-content>
 
@@ -57,7 +57,7 @@
             color="dark"
             app
     >
-      <span class="white--text">&copy; 2020</span>
+      <span class="white--text">2020</span>
     </v-footer>
   </v-app>
 </template>
@@ -67,7 +67,35 @@
 
 export default {
   name: 'App',
-  components: {},
+  mounted(){
+    if (localStorage.getItem('cache')) {
+      try {
+        const obj = JSON.parse(localStorage.getItem('cache'));
+
+        this.$store.commit('SET_EMOJI', obj[0]);
+        this.$store.commit('SET_EM_DEL', obj[1] );
+
+      } catch(e) {
+        localStorage.removeItem('cache');
+      }
+    } else {
+      this.$store.dispatch('DOWNLOAD_EMOJI');
+    }
+
+  },
+  updated(){
+      let all_em = this.$store.getters.ALL_EM;
+      let deleted_em = this.$store.getters.DELETED_EM;
+
+      const obj = {
+          0:all_em,
+          1:deleted_em
+      };
+
+      const parsed = JSON.stringify(obj);
+      localStorage.setItem('cache', parsed);
+  },
+
   data: () => ({
     drawer: null,
     title: 'Все'

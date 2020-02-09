@@ -12,11 +12,16 @@
       </v-card-title>
       <v-data-table
               :headers="headers"
-              :items="emojis"
+              :items="all_emoji"
+              :items-per-page="15"
               :search="search"
               sort-by="name"
               class="elevation-1"
       >
+          <template v-slot:item.preview="{ item }" >
+              <img :src="item.url" class="img_preview">
+          </template>
+
           <template v-slot:item.action="{ item }" >
               <td class="dop_td">
                   <v-checkbox
@@ -31,21 +36,12 @@
                 <v-icon @click="deleteItem(item)" >mdi-delete</v-icon>
               </td>
           </template>
-<!--          <template v-slot:no-data>-->
-<!--              <v-btn color="primary" @click="initialize">Reset</v-btn>-->
-<!--          </template>-->
+
       </v-data-table>
-
-      <div>
-
-      </div>
   </div>
 </template>
 
 <script>
-    const axios = require('axios');
-
-
 export default {
 
     data: () => ({
@@ -56,121 +52,37 @@ export default {
             { text: 'Превью', value: 'preview', filterable: false, sortable: false},
             { text: 'Действия', value: 'action', filterable: false, sortable: false,},
         ],
-        emojis: [],
-
-        emojisJSON: null
     }),
 
-    mounted() {
-        axios.get('https://api.github.com/emojis')
-            .then(response => (this.emojisJSON = response.data))
-        // eslint-disable-next-line no-console
+    computed: {
+        all_emoji(){
+            return this.$store.getters.ALL_EM;
+        }
     },
-    updated(){
-        this.$nextTick(function () {
-            const obj = this.emojisJSON;
-            for (let key in obj ){
-                console.log(  `${key}   : ${ obj[key] } `);
-
-                //this.emojis.push({ name: key  ,url: value, isFavorit: false  })
-            }
-        })
-
-    },
-
 
     methods: {
-
-        initialize() {
-            this.emojis = [
-                {
-                    name: '00000000',
-                    url: 'https://asdf8080/sadf/2/sdf/332/werdsfd/1.img',
-                    preview: 'IMG',
-                    isFavorit: true
-                },
-                {
-                    name: 'F1t',
-                    url: 'https://asdf8080/sadf/2/sdf/332/werdsfd/1.img',
-                    preview: 'IMG',
-                    isFavorit: true
-                },
-                {
-                    name: '2t',
-                    url: 'https://asdf8080/sadf/2/sdf/332/werdsfd/1.img',
-                    preview: 'IMG',
-                    isFavorit: false
-                },
-                {
-                    name: 'F3',
-                    url: 'https://asdf8080/sadf/2/sdf/332/werdsfd/1.img',
-                    preview: 'IMG',
-                    isFavorit: true
-                },
-                {
-                    name: '4ozen Yogurt',
-                    url: 'https://asdf8080/sadf/2/sdf/332/werdsfd/1.img',
-                    preview: 'IMG',
-                    isFavorit: false
-                },
-                {
-                    name: 'F5urt',
-                    url: 'https://asdf8080/sadf/2/sdf/332/werdsfd/1.img',
-                    preview: 'IMG',
-                    isFavorit: false
-                },
-                {
-                    name: '7rt',
-                    url: 'https://asdf8080/sadf/2/sdf/332/werdsfd/1.img',
-                    preview: 'IMG',
-                    isFavorit: false
-                },
-                {
-                    name: 'Frozen 8',
-                    url: 'https://asdf8080/sadf/2/sdf/332/werdsfd/1.img',
-                    preview: 'IMG',
-                    isFavorit: true
-                },
-                {
-                    name: '9en Yogurt',
-                    url: 'https://asdf8080/sadf/2/sdf/332/werdsfd/1.img',
-                    preview: 'IMG',
-                    isFavorit: false
-                },
-                {
-                    name: 'Fro10rt',
-                    url: 'https://asdf8080/sadf/2/sdf/332/werdsfd/1.img',
-                    preview: 'IMG',
-                    isFavorit: false
-                },
-                {
-                    name: 'Fro11gurt',
-                    url: 'https://asdf8080/sadf/2/sdf/332/werdsfd/1.img',
-                    preview: 'IMG ',
-                    isFavorit: true
-                },
-
-            ]
-        },
-        addItemFavorite(item) { // для отладки, впринцепе больше не нужен
-            const index = this.desserts.indexOf(item)
-            // eslint-disable-next-line no-console
-            console.log(this.desserts[index].isFavorit);
-        },
         deleteItem(item) {
-            // eslint-disable-next-line no-console,no-unused-vars
-            const index = this.desserts.indexOf(item)
-
-            // КОД переноса ИЗ основного масива В масив УДАЛЕННЫЙХ
-
-            // eslint-disable-next-line no-console
-            console.log(index);
+            const index = this.all_emoji.indexOf(item);
+            this.$store.dispatch('DELETE_EM', index);
         }
     }
 }
 </script>
 
-<style>
+<style >
+    .v-card__subtitle, .v-card__text, .v-card__title {
+        padding: 0 16px !important;
+    }
+    .v-text-field {
+         padding-top: 0 !important;
+    }
+    .img_preview{
+        height: 25px;
+    }
+    .img_preview:hover{
+        transition: 0.5s;
+        height: 64px;
+    }
     .v-input--selection-controls{
         margin-top: 0px !important;
         padding-top: 0px !important;
